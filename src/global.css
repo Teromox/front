@@ -1,3 +1,4 @@
+/* 여러 파일에서 공통적으로 이 폰트를 사용하기 때문에 전체 적용으로 코드를 재사용함 */
 @font-face {
     font-family: 'Suit';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
@@ -9,6 +10,7 @@
     font-family: 'Suit';
 }
 
+/* React에서 기본적으로 있는 마진을 제거하기 위함 */
 body {
   margin: 0;
 }
