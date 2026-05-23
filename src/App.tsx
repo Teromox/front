@@ -1,8 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
+
 import AuthPage from './pages/AuthPage';
 import DashBoard from './pages/DashBoard';
 import Mypage from './pages/MyPage';
 import CreateVmPage from './pages/CreateVmPage';
+import AddCouponPage from './pages/AddCouponPage';
+
 import { useScreenGuard } from './hooks/ScreenSize';
 import NotSupport from './pages/NotSupport';
 
@@ -15,6 +18,8 @@ function App() {
       <Route path="/dashboard" element={<DashBoard />} />
       <Route path="/mypage" element={<Mypage />} />
       <Route path="/createvm" element={<CreateVmPage />} />
+      <Route path="/addcoupon" element={<AddCouponPage />} />
+
       <Route path="/notsupported" element={<NotSupport />} />
       <Route path="*" element={<NotSupport />} />
     </Routes>

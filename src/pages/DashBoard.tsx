@@ -26,12 +26,12 @@ function DashBoard() {
                         <ContainerInside>
                             <SmallTitle>보유 크레딧</SmallTitle>
                             <ContentText>5 크레딧</ContentText>
-                            <BlackButton style={{width: '90%', height: '25%', fontSize: '1.5dvh'}}>
+                            <BlackLink to="/addcoupon" style={{width: '90%', height: '25%', fontSize: '1.5dvh'}}>
                                 <IconBtnInside>
                                     <FaTicket style={{ width: "1dvw", height: "1dvw" }}/>
                                     충전하기
                                 </IconBtnInside>
-                            </BlackButton>
+                            </BlackLink>
                         </ContainerInside>
                     </RoundContainer>
                     <RoundContainer width="20dvw" height="20dvh">
