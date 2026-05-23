@@ -44,6 +44,41 @@ export const BlackButton = styled.button`
     }
 `
 
+type ColorButtonProps = {
+    color: string;
+    textColor: string;
+    hoverColor: string;
+}
+
+export const ColorButton = styled.button<ColorButtonProps>`
+    background: ${({ color }) => color};
+    color: ${({ textColor }) => textColor};
+    padding: 1.3dvh 4dvw;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 2dvh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    // 애니메이션: 보잉하는애니메이션
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+    &:hover {
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: scale(0.96);
+    }
+`
+
 export const LabelTag = styled.label`
     text-align: left;
     display: flex;

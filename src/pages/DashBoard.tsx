@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
-import { OuterBox, RoundContainer } from './style/PageStyle';
+import { OuterBox, RoundContainer, BodyDiv } from './style/PageStyle';
 import { 
-    BodyDiv, MenuDiv, 
+    MenuDiv, 
     SmallTitle, 
     ContentText, 
     ContainerInside, 
@@ -14,7 +14,7 @@ import { BlackButton, IconBtnInside } from '../components/style/CompStyle';
 import { FaTicket } from "react-icons/fa6";
 import { FiFilePlus } from "react-icons/fi";
 import styled from 'styled-components';
-import { AUTO } from './../../node_modules/css-to-react-native/src/tokenTypes';
+import Vm from '../components/Vm';
 
 function DashBoard() {
     return (
@@ -55,11 +55,57 @@ function DashBoard() {
                     </RoundContainer>
                 </MenuDiv>
                 <RoundContainer width="63dvw" height="AUTO" style={{ marginTop: '5dvh' }}>
-                    <ContainerInside>
-                        <VmTitleContainer>
-                            <VmTitle>실행 중인 VM</VmTitle>
-                        </VmTitleContainer>
-                    </ContainerInside>
+                    <VmTitleContainer>
+                        <VmTitle>인스턴스 목록</VmTitle>
+                    </VmTitleContainer>
+                    <Vm 
+                        running={true}
+                        name="Ubuntu 20.04"
+                        cpu="40%"
+                        memory="80%"
+                        ip="10.0.0.101"
+                        vmId="101"
+                    />
+                    <Vm 
+                        running={false}
+                        name="CentOs 7"
+                        cpu="10%"
+                        memory="55%"
+                        ip="10.0.0.102"
+                        vmId="102"
+                    />
+                    <Vm 
+                        running={false}
+                        name="Windows 10"
+                        cpu="0.1%"
+                        memory="10%"
+                        ip="10.0.0.103"
+                        vmId="103"
+                    />
+                    <Vm 
+                        running={true}
+                        name="Ubuntu 20.04"
+                        cpu="40%"
+                        memory="80%"
+                        ip="10.0.0.101"
+                        vmId="101"
+                    />
+                    <Vm 
+                        running={false}
+                        name="CentOs 7"
+                        cpu="10%"
+                        memory="55%"
+                        ip="10.0.0.102"
+                        vmId="102"
+                    />
+                    <Vm 
+                        running={false}
+                        name="Windows 10"
+                        cpu="0.1%"
+                        memory="10%"
+                        ip="10.0.0.103"
+                        vmId="103"
+                    />
                 </RoundContainer>
             </BodyDiv>
         </OuterBox>

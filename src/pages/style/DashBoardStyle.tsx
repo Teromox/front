@@ -19,9 +19,9 @@ export const VmTitleContainer = styled.div`
 `
 
 export const VmTitle = styled.h1`
-    font-size: 120%;
+    font-size: 2.3dvh;
     font-weight: 700;
-    margin: 2dvh 0 2dvh 0; // 위쪽 오른쪽 아래 왼쪽
+    margin: 2dvh 0 2dvh 3dvh; // 위쪽 오른쪽 아래 왼쪽
 `
 
 export const ContainerInside = styled.div`

@@ -73,7 +73,9 @@
     font-family: 'Pretendard';
 }
 
-/* React에서 기본적으로 있는 마진을 제거하기 위함 */
 body {
+  /* React에서 기본적으로 있는 마진을 제거하기 위함 */
   margin: 0;
+  /* 좌우 스크롤바가 있어 미관을 해침!!! 그래서 제거함 */
+  overflow-x: hidden;
 }

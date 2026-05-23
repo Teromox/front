@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { url } from './../../../node_modules/zod/src/v4/mini/schemas';
+import { url } from '../../../node_modules/zod/src/v4/mini/schemas';
 
 export const NotSupportContainer = styled.div`
     width: 100dvw;
