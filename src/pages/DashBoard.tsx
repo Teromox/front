@@ -10,7 +10,7 @@ import {
     FirstTitle, SecondContent,
     VmTitleContainer, VmTitle
 } from './style/DashBoardStyle';
-import { BlackButton, IconBtnInside } from '../components/style/CompStyle';
+import { BlackButton, IconBtnInside, BlackLink } from '../components/style/CompStyle';
 import { FaTicket } from "react-icons/fa6";
 import { FiFilePlus } from "react-icons/fi";
 import styled from 'styled-components';
@@ -45,12 +45,12 @@ function DashBoard() {
                         <ContainerInside>
                             <FirstTitle>인스턴스 생성</FirstTitle>
                             <SecondContent>가상 머신을 생성하세요</SecondContent>
-                            <BlackButton style={{width: '90%', height: '25%', fontSize: '1.5dvh'}}>
+                            <BlackLink to="/createvm" style={{width: '90%', height: '25%', fontSize: '1.5dvh'}}>
                                 <IconBtnInside>
                                     <FiFilePlus style={{ width: "1dvw", height: "1dvw" }}/>
                                     생성하기
                                 </IconBtnInside>
-                            </BlackButton>
+                            </BlackLink>
                         </ContainerInside>
                     </RoundContainer>
                 </MenuDiv>

@@ -9,8 +9,6 @@ export const NotSupportContainer = styled.div`
     align-items: center;
     justify-content: center;
     font-weight: 400;
-
-    cursor: url('https://i.pinimg.com/736x/8c/f9/f6/8cf9f6e2c07b39d3be2da588689aacc2.jpg') 2 2, auto;
 `
 
 // 화면 가장 왼쪽 아래에 언제나 고정하는 기여운!!!!!! 이미지

@@ -23,7 +23,7 @@ function Mypage() {
                         </EmailBox>
                     </ContainerContent>
                     <ContainerContent>
-                        <h1>이메일 번경</h1>
+                        <h1>이메일 변경</h1>
                         <WhiteInput type="email" placeholder='변경할 이메일을 입력하세요' />
                         <BlackButton>변경하기</BlackButton>
                     </ContainerContent>
@@ -33,7 +33,7 @@ function Mypage() {
                         <p>계정 삭제</p>
                     </TitleDiv>
                     <ContainerContent>
-                        <h1>계정을 삭제하시려면 아래 버튼을 눌러주세요</h1>
+                        <h1 style={{ fontWeight: 500 }}>계정을 삭제하시려면 아래 버튼을 눌러주세요</h1>
                         <ColorButton color="#DC2626" textColor="white">계정 삭제</ColorButton>
                     </ContainerContent>
                 </RoundContainer>
