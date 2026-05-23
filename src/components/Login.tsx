@@ -1,8 +1,5 @@
-import { WhiteInput, BlackButton, Box } from "./CompStyle"
-
-const widthStyle: React.CSSProperties = {
-  width: "35dvw",
-};
+import { WhiteInput, BlackButton, Box } from "./style/CompStyle"
+import { widthStyle } from "./style/AuthStyle"
 
 function Login() {
     return (

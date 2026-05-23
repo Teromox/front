@@ -1,5 +1,19 @@
 import styled from 'styled-components'
 
+export const IconBtnInside = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 0.5dvw;
+
+    svg {
+        flex-shrink: 0;
+    }
+
+    p {
+        margin: 0;
+    }
+`
+
 export const BlackButton = styled.button`
     background: #000000;
     color: white;
@@ -8,6 +22,10 @@ export const BlackButton = styled.button`
     border-radius: 8px;
     text-align: center;
     font-size: 2dvh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     // 애니메이션: 보잉하는애니메이션
     transition:
@@ -43,6 +61,10 @@ export const WhiteButton = styled.button`
     text-align: center;
     font-size: 2dvh;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     // 애니메이션: 보잉하는애니메이션
     transition:
         transform 0.2s ease,
@@ -70,6 +92,10 @@ export const WhiteInput = styled.input`
     border-radius: 8px;
     text-align: center;
     font-size: 2dvh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     // 애니메이션: 보잉하는애니메이션
     transition:
