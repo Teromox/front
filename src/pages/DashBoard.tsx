@@ -14,6 +14,7 @@ import { BlackButton, IconBtnInside, BlackLink } from '../components/style/CompS
 import { FaTicket } from "react-icons/fa6";
 import { FiFilePlus } from "react-icons/fi";
 import styled from 'styled-components';
+// import Loading from '../components/Loading'; 나중에 로딩 필요할때 쓰기
 import Vm from '../components/Vm';
 
 function DashBoard() {
@@ -39,7 +40,7 @@ function DashBoard() {
                             <SmallTitle>전체 VM</SmallTitle>
                             <ContentText>3대</ContentText>
                             <ContentTextSmall>실행 중 : 2대</ContentTextSmall>
-                        </ContainerInside>
+                        </ContainerInside>  
                     </RoundContainer>
                     <RoundContainer width="20dvw" height="20dvh">
                         <ContainerInside>

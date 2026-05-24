@@ -14,7 +14,7 @@ export const LogoBox = styled.div`
     align-items: center;
     margin-left: 20dvw;
     font-size: 3dvh;
-    font-weight: 400;
+    font-weight: 500;
 `
 
 export const BtnBox = styled.h1`

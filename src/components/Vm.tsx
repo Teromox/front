@@ -30,7 +30,7 @@ function Vm(
         <Container>
             <Icon running={running}/>
             <DesBox>
-                <DesTitle to="/dashboard">{name}</DesTitle>
+                <DesTitle to="/vmdetail">{name}</DesTitle>
                 <DesSubBox>
                     <DesSub>ID: {vmId}</DesSub>
                     <DesSub>내부 IP: {ip}</DesSub>

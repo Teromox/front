@@ -110,6 +110,11 @@ export const ColorButton = styled.button<ColorButtonProps>`
     &:active {
         transform: scale(0.96);
     }
+
+    svg {
+        display: block;
+        color: ${({ textColor }) => textColor};
+    }
 `
 
 export const LabelTag = styled.label`
