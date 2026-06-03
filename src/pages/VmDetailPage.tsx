@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Header from '../components/Header';
 import { 
     OuterBox, RoundContainer, BodyDiv, TitleDiv,
     TitleLeft, TitleSub, Icon,
     TitleRight
 } from './style/PageStyle';
-import { Label, WhiteInput, BlackButton, ColorButton } from '../components/style/CompStyle';
+import { ColorButton } from '../components/style/CompStyle';
 import { ContainerInBox } from './style/CreateVmStyle';
 import { 
     ContainerInRowBox, HalfBox, Conk1, Conk1Content, Conk3,
@@ -21,8 +21,10 @@ import { IoMdAdd } from "react-icons/io";
 import { GoCpu } from "react-icons/go";
 import { OuterBar, InnerBar } from './style/VmDetailStyle';
 import Port from '../components/Port';
+import { useNoLogin } from '../hooks/NotLogin';
 
 function VmDetailPage() {
+    useNoLogin();
     const [isRunning, setIsRunning]= useState(true); // VM 실행 상태를 나타내는 상태 변수
 
     return (

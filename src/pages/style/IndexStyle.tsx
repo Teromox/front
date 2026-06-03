@@ -127,6 +127,11 @@ export const WipeAni = keyframes`
     }
 `
 
+    // display: flex;
+    // flex-direction: row;
+    // align-items: center; // 수직 중앙 정렬
+    // gap: 1dvw;
+
 export const StartButtonContainer = styled.div`
     display: flex;
     flex-direction: row;

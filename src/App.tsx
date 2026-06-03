@@ -10,6 +10,8 @@ import IndexPage from './pages/IndexPage';
 
 import { useScreenGuard } from './hooks/ScreenSize';
 import NotSupport from './pages/NotSupport';
+import LogoutPage from './pages/LogoutPage';
+  
 
 function App() {
   useScreenGuard(); // 커스텀 훅, 사이즈 작으면 안들어가지게 막음
@@ -23,6 +25,8 @@ function App() {
       <Route path="/createvm" element={<CreateVmPage />} />
       <Route path="/addcoupon" element={<AddCouponPage />} />
       <Route path="/vmdetail" element={<VmDetailPage />} />
+
+      <Route path="/logout" element={<LogoutPage />} />
 
       <Route path="/notsupported" element={<NotSupport />} />
       <Route path="*" element={<NotSupport />} />

@@ -1,4 +1,3 @@
-import { WhiteInput, BlackButton, Box } from "../components/style/CompStyle"
 import { 
     Container, Icon,
     DesBox, DesTitle, DesSubBox, DesSub,

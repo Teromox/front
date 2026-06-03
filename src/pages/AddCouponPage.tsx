@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Header from '../components/Header';
 import { OuterBox, RoundContainer, BodyDiv, TitleDiv } from './style/PageStyle';
-import { Label, WhiteInput, BlackButton, LockedWhiteInput } from '../components/style/CompStyle';
-import { ContainerInBox, InputContainer, InnerInputContainer, InputsContainer } from './style/CreateVmStyle';
+import { Label, WhiteInput, BlackButton } from '../components/style/CompStyle';
+import { ContainerInBox, InputContainer } from './style/CreateVmStyle';
+import { useNoLogin } from '../hooks/NotLogin';
 
 // Vm 생성 페이지와 유사해 컴포넌트 스타일을 최대한 재사용하였음.
 function AddCouponPage() {
+    useNoLogin();
     // 쿠폰 등록 버튼 클릭 이벤트
     // 나중에 input 얻기할때 참고할 것
     const [couponCode, setCouponCode] = useState('');

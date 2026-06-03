@@ -1,5 +1,5 @@
 import Login from "../components/Login";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Register from "../components/Register";
 import { WhiteButton, BlackButton } from "../components/style/CompStyle";
 import { widthStyleHalf } from "../components/style/AuthStyle";

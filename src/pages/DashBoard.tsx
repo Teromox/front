@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import Header from '../components/Header';
 import { OuterBox, RoundContainer, BodyDiv } from './style/PageStyle';
 import { 
@@ -6,18 +5,23 @@ import {
     SmallTitle, 
     ContentText, 
     ContainerInside, 
-    ContentTextSmall, 
     FirstTitle, SecondContent,
     VmTitleContainer, VmTitle
 } from './style/DashBoardStyle';
-import { BlackButton, IconBtnInside, BlackLink } from '../components/style/CompStyle';
+import { IconBtnInside, BlackLink } from '../components/style/CompStyle';
 import { FaTicket } from "react-icons/fa6";
 import { FiFilePlus } from "react-icons/fi";
-import styled from 'styled-components';
 // import Loading from '../components/Loading'; 나중에 로딩 필요할때 쓰기
 import Vm from '../components/Vm';
+import { useNoLogin } from '../hooks/NotLogin';
+
+import { getAllCookies } from '../scripts/Cookie';
 
 function DashBoard() {
+    useNoLogin();
+    const { credit, vm } = getAllCookies();
+    const vmList = vm ? vm.split(",") : [];
+    
     return (
         <OuterBox>
             <Header main={true} />
@@ -26,7 +30,7 @@ function DashBoard() {
                     <RoundContainer width="20dvw" height="20dvh">
                         <ContainerInside>
                             <SmallTitle>보유 크레딧</SmallTitle>
-                            <ContentText>5 크레딧</ContentText>
+                            <ContentText>{credit} 크레딧</ContentText>
                             <BlackLink to="/addcoupon" style={{width: '90%', height: '25%', fontSize: '1.5dvh'}}>
                                 <IconBtnInside>
                                     <FaTicket style={{ width: "1dvw", height: "1dvw" }}/>
@@ -38,8 +42,7 @@ function DashBoard() {
                     <RoundContainer width="20dvw" height="20dvh">
                         <ContainerInside>
                             <SmallTitle>전체 VM</SmallTitle>
-                            <ContentText>3대</ContentText>
-                            <ContentTextSmall>실행 중 : 2대</ContentTextSmall>
+                            <ContentText>{vmList.length}대</ContentText>
                         </ContainerInside>  
                     </RoundContainer>
                     <RoundContainer width="20dvw" height="20dvh">

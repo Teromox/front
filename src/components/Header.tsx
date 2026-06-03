@@ -23,7 +23,7 @@ function Header(
                             <AiOutlineUser size={"2dvh"} />
                             <p>마이페이지</p>
                         </NewAtag>
-                        <NewAtag to="/auth" color="#E7000B" hoverColor="#ff8086">
+                        <NewAtag to="/logout" color="#E7000B" hoverColor="#ff8086">
                             <IoExitOutline size={"2dvh"} />
                             <p>로그아웃</p>
                         </NewAtag>

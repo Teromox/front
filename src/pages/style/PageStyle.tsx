@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import React, { useState } from 'react';
 import { RxServer } from "react-icons/rx";
 
 export const OuterBox = styled.div`

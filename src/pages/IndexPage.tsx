@@ -1,5 +1,3 @@
-import styled from 'styled-components';
-import React, { useState } from 'react';
 import { GoArrowRight } from "react-icons/go";
 
 import { 
@@ -11,7 +9,7 @@ import {
 } from './style/IndexStyle';
 
 function IndexPage() {
-    return ( 
+    return (
         <Container>
             <ContainerInBox>
                 <LeftDiv>
