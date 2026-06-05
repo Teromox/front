@@ -185,10 +185,10 @@ function VmDetailPage() {
                         </TitleRight>
                     </TitleDiv>
                     <ContainerInBox style={{ marginBottom: '5dvh' }}>
-                        <Port port="80" des="HTTP"/>
-                        <Port port="80" des="HTTP"/>
-                        <Port port="80" des="HTTP"/>
-                        <Port port="80" des="HTTP"/>
+                        <Port port="80" outport="8080" des="HTTP"/>
+                        <Port port="80" outport="8080" des="HTTP"/>
+                        <Port port="80" outport="8080" des="HTTP"/>
+                        <Port port="80" outport="8080" des="HTTP"/>
                     </ContainerInBox>
                 </RoundContainer>
             </BodyDiv>

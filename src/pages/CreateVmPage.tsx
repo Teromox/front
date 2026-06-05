@@ -9,6 +9,7 @@ import { BackUrl } from '../Datas';
 import type { ErrorType } from '../types/ErrorType'
 import type { CreateVmType } from '../types/CreateVmtype';
 import Loading from '../components/Loading'; 
+import VmCreatePopUp from '../components/VmCreatePopUp';
 
 interface CreateVmRequest {
     name: string;
@@ -21,6 +22,10 @@ function CreateVmPage() {
     const [instanceName, setInstanceName] = useState('');
     const [linuxUsername, setLinuxUsername] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isPopUpOpen, setIsPopUpOpen] = useState(true);
+
+    const [sshKey, setSshKey] = useState('');
+    const [password, setPassword] = useState('');
 
     const makeVm = async () => {
         if (!instanceName.trim()) {
@@ -42,7 +47,10 @@ function CreateVmPage() {
                 .then((response) => {
                     console.log(response.data);
                     alert('인스턴스가 성공적으로 생성되었습니다.');
+                    setSshKey(response.data.private_key);
+                    setPassword(response.data.password);
                     setIsLoading(false);
+                    setIsPopUpOpen(true);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -61,6 +69,13 @@ function CreateVmPage() {
 
     return (
         <OuterBox>
+            {isPopUpOpen && (
+                <VmCreatePopUp 
+                    title="인스턴스 생성 완료"
+                    password={password}
+                    ssh_key={sshKey}
+                />
+            )}
             {isLoading && <Loading />}
             <Header main={false} />
             <BodyDiv style={{ marginTop: '5dvh' }}>

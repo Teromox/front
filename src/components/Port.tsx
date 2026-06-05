@@ -8,12 +8,14 @@ import { MdDeleteOutline } from "react-icons/md";
 
 type PortProps = {
     port: string;
+    outport: string;
     des: string;
 }
 
 function Port(
     { 
         port,
+        outport,
         des
     }: PortProps
 ) {
@@ -23,6 +25,10 @@ function Port(
                 <Content>
                     <h1>포트</h1>
                     <p>{port}</p>
+                </Content>
+                <Content>
+                    <h1>외부 포트</h1>
+                    <p>{outport}</p>
                 </Content>
                 <Content>
                     <h1>설명</h1>
