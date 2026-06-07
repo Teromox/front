@@ -7,7 +7,7 @@ import { removeCookie, patchCookie } from "../scripts/Cookie";
 
 import type { UserType } from "../types/UserType";
 
-export function useNoLogin() {
+export function useNoLogin(setList?: (data?: any) => void) {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,6 +26,11 @@ export function useNoLogin() {
                         const userEmail = user.data.email;
                         const userCredit = user.data.credit;
                         const userVm = user.data.vm;
+                        
+                        setList?.(userVm);
+                        // if (setList) {
+                        //     setList(userVm);
+                        // }
 
                         console.log(userId, userEmail, userCredit, userVm);
                         patchCookie(userId, userEmail, userCredit.toString(), userVm.toString());

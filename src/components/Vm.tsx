@@ -10,8 +10,8 @@ type VmProps = {
     running: boolean;
     name: string;
     vmId: string;
-    cpu: string;
-    memory: string;
+    cpu: number;
+    memory: number;
     ip: string;
 }
 
@@ -41,14 +41,14 @@ function Vm(
                         <FiCpu />
                         <p>CPU</p>
                     </StatusLabel>
-                    <StatusValue>{cpu}</StatusValue>
+                    <StatusValue>{cpu}%</StatusValue>
                 </StatusContent>
                 <StatusContent>
                     <StatusLabel>
                         <PiMemoryBold />
                         <p>RAM</p>
                     </StatusLabel>
-                    <StatusValue>{memory}</StatusValue>
+                    <StatusValue>{memory}%</StatusValue>
                 </StatusContent>
             </StatusBox>
         </Container>

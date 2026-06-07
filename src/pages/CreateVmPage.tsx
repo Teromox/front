@@ -10,6 +10,8 @@ import type { ErrorType } from '../types/ErrorType'
 import type { CreateVmType } from '../types/CreateVmtype';
 import Loading from '../components/Loading'; 
 import VmCreatePopUp from '../components/VmCreatePopUp';
+import { getCookie } from '../scripts/Cookie';
+import { AccessTokenName } from '../Datas';
 
 interface CreateVmRequest {
     name: string;
@@ -27,6 +29,8 @@ function CreateVmPage() {
     const [sshKey, setSshKey] = useState('');
     const [password, setPassword] = useState('');
 
+    const accessToken = getCookie(AccessTokenName);
+
     const makeVm = async () => {
         if (!instanceName.trim()) {
             alert('인스턴스 이름을 입력해주세요.');
@@ -42,8 +46,17 @@ function CreateVmPage() {
                 userName: linuxUsername,
             };
             setIsLoading(true);
+            console.log(createData);
             axios
-                .post<CreateVmType>(`${BackUrl}/api/vm`, createData)
+                .post<CreateVmType>(
+                    `${BackUrl}/api/vm`, 
+                    createData, // 두 번째 파라미터: Body 데이터 (DTO로 매핑됨)
+                    {
+                        headers: {
+                            Authorization: `${accessToken}`, // 세 번째 파라미터: 설정 (인증 헤더)
+                        },
+                    }
+                )
                 .then((response) => {
                     console.log(response.data);
                     alert('인스턴스가 성공적으로 생성되었습니다.');
@@ -53,7 +66,13 @@ function CreateVmPage() {
                     setIsPopUpOpen(true);
                 })
                 .catch((error) => {
-                    console.error(error);
+                    const err = error as AxiosError<ErrorType>;
+                    console.log(err.response?.status);
+                    console.log(err.response?.data.errorCode);
+                    console.log(err.response?.data.errorMsg);
+                    alert(err.response?.data.errorDescription || '인스턴스 생성에 실패했습니다. 다시 시도해주세요.');
+                    // console.log(error);
+                    // alert('인스턴스 생성에 실패했습니다. 다시 시도해주세요.');
                     setIsLoading(false);
                 });
         } catch (err) {

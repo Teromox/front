@@ -16,12 +16,41 @@ import Vm from '../components/Vm';
 import { useNoLogin } from '../hooks/NotLogin';
 
 import { getAllCookies } from '../scripts/Cookie';
+import { useState } from 'react';
+import type { VmType } from '../types/VmType';
+
+import { GetVmDetail } from '../scripts/GetVmDetail';
+import { useEffect } from 'react';
 
 function DashBoard() {
-    useNoLogin();
-    const { credit, vm } = getAllCookies();
-    const vmList = vm ? vm.split(",") : [];
+    const [vmList, setVmList] = useState([] as VmType[]);
+    useNoLogin(setVmList);
+    const { credit } = getAllCookies();
+
+    const [vmDetails, setVmDetails] = useState([]);
+
+    useEffect(() => {
+        const loadVmDetails = async () => {
+            const details = await Promise.all(
+                vmList.map(async vm => {
+                    const detail = await GetVmDetail(vm.id);
+
+                    return {
+                        ...vm,
+                        detail
+                    };
+                })
+            );
+
+            setVmDetails(details);
+        };
+
+        if (vmList.length > 0) {
+            loadVmDetails();
+        }
+    }, [vmList]);
     
+    console.log("vmList:", vmList);
     return (
         <OuterBox>
             <Header main={true} />
@@ -62,54 +91,18 @@ function DashBoard() {
                     <VmTitleContainer>
                         <VmTitle>인스턴스 목록</VmTitle>
                     </VmTitleContainer>
-                    <Vm 
-                        running={true}
-                        name="Ubuntu 20.04"
-                        cpu="40%"
-                        memory="80%"
-                        ip="10.0.0.101"
-                        vmId="101"
-                    />
-                    <Vm 
-                        running={false}
-                        name="CentOs 7"
-                        cpu="10%"
-                        memory="55%"
-                        ip="10.0.0.102"
-                        vmId="102"
-                    />
-                    <Vm 
-                        running={false}
-                        name="Windows 10"
-                        cpu="0.1%"
-                        memory="10%"
-                        ip="10.0.0.103"
-                        vmId="103"
-                    />
-                    <Vm 
-                        running={true}
-                        name="Ubuntu 20.04"
-                        cpu="40%"
-                        memory="80%"
-                        ip="10.0.0.101"
-                        vmId="101"
-                    />
-                    <Vm 
-                        running={false}
-                        name="CentOs 7"
-                        cpu="10%"
-                        memory="55%"
-                        ip="10.0.0.102"
-                        vmId="102"
-                    />
-                    <Vm 
-                        running={false}
-                        name="Windows 10"
-                        cpu="0.1%"
-                        memory="10%"
-                        ip="10.0.0.103"
-                        vmId="103"
-                    />
+                    {
+                        vmDetails.map(vm => (
+                            <Vm
+                                vmId={vm.id}
+                                name={vm.detail.name}
+                                running={vm.detail.status === "running"}
+                                cpu={Math.round(vm.detail.cpu)}
+                                memory={Math.round(vm.detail.mem / vm.detail.maxmem * 100)}
+                                ip={vm.ip}
+                            />
+                        ))
+                    }
                 </RoundContainer>
             </BodyDiv>
         </OuterBox>
