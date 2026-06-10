@@ -24,7 +24,7 @@ function CreateVmPage() {
     const [instanceName, setInstanceName] = useState('');
     const [linuxUsername, setLinuxUsername] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [isPopUpOpen, setIsPopUpOpen] = useState(true);
+    const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
     const [sshKey, setSshKey] = useState('');
     const [password, setPassword] = useState('');
