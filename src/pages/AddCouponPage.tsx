@@ -5,18 +5,49 @@ import { Label, WhiteInput, BlackButton } from '../components/style/CompStyle';
 import { ContainerInBox, InputContainer } from './style/CreateVmStyle';
 import { useNoLogin } from '../hooks/NotLogin';
 
+import axios from 'axios';
+import { BackUrl } from '../Datas';
+import { getCookie } from '../scripts/Cookie';
+import { AccessTokenName } from '../Datas';
+
+interface CodeType {
+    code: string;
+}
+
+interface AddCouponResponse {
+    status: string;
+    credit: number;
+}
+
 // Vm 생성 페이지와 유사해 컴포넌트 스타일을 최대한 재사용하였음.
 function AddCouponPage() {
     useNoLogin();
     // 쿠폰 등록 버튼 클릭 이벤트
     // 나중에 input 얻기할때 참고할 것
     const [couponCode, setCouponCode] = useState('');
+    const accessToken = getCookie(AccessTokenName);
 
-    function AddBtnClick() {
+    const couponData: CodeType = {
+        code: couponCode
+    };
+
+    const AddBtnClick = async() => {
         if (couponCode.trim()) {
-            alert(couponCode);
+            try {
+                const response = await axios.post<AddCouponResponse>(`${BackUrl}/api/code/`, couponData, {
+                    headers: {
+                        Authorization: `${accessToken}`,
+                    }
+                });
+            }
+            catch (error) {
+                console.error('쿠폰 등록 실패:', error);
+                alert('쿠폰 등록에 실패했습니다. 다시 시도해주세요.');
+                return;
+            }
+            alert(`${response.data.credit} 크레딧 충전되었습니다.`);
         } else {
-            alert('not');
+            alert('쿠폰 코드를 입력하세요.');
         }
     }
     

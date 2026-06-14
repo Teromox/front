@@ -49,7 +49,7 @@ function CreateVmPage() {
             console.log(createData);
             axios
                 .post<CreateVmType>(
-                    `${BackUrl}/api/vm`, 
+                    `${BackUrl}/api/vm/`, 
                     createData, // 두 번째 파라미터: Body 데이터 (DTO로 매핑됨)
                     {
                         headers: {

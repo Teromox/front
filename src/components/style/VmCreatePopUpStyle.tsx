@@ -50,6 +50,23 @@ export const CheckBoxContainer = styled.div`
     }
 `
 
+export const XboxIconContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 0dvh;
+
+    svg {
+        width: 3dvw;
+        height: 3dvh;
+        color: #666666;
+        margin-right: 1.5dvw;
+        margin-left: auto;
+        cursor: pointer;
+    }
+`;
+
 export const LineContainer = styled.div`
     display: flex;
     flex-direction: column;

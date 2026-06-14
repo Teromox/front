@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import { 
     OuterBox, RoundContainer, BodyDiv, TitleDiv,
@@ -22,13 +22,159 @@ import { GoCpu } from "react-icons/go";
 import { OuterBar, InnerBar } from './style/VmDetailStyle';
 import Port from '../components/Port';
 import { useNoLogin } from '../hooks/NotLogin';
+import { GetVmDetail } from '../scripts/GetVmDetail';
+
+import type { VmInsideType } from '../types/VmInsideType';
+import Loading from '../components/Loading';
+import { AccessTokenName, BackUrl } from '../Datas';
+import { getCookie } from '../scripts/Cookie';
+import type { CreateVmType } from '../types/CreateVmtype';
+
+import axios from 'axios';
+import VmCreatePopUp from '../components/VmCreatePopUp';
+import { useNavigate } from 'react-router-dom';
+import PortAddPopUp from '../components/PortAddPopUp';
+
+interface VmIdData {
+    vmid: string;
+}
+
+interface VmIdData2 {
+    id: string;
+}
 
 function VmDetailPage() {
     useNoLogin();
+
+    const navigate = useNavigate();
     const [isRunning, setIsRunning]= useState(true); // VM 실행 상태를 나타내는 상태 변수
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [sshKey, setSshKey] = useState('');
+    const [password, setPassword] = useState('');
+    const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+
+    const [isPortPopUpOpen, setIsPortPopUpOpen] = useState(false);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const vmId = urlParams.get('id');
+    const accessToken = getCookie(AccessTokenName);
+
+    const wait3Seconds = () => {
+        return new Promise(resolve => setTimeout(resolve, 3000));
+    }
+
+    const exampleVmDetail: VmInsideType = {
+        cpu: 0,
+        mem: 0,
+        name: "로딩중",
+        innerIp: "로딩중",
+        outIp: "로딩중",
+        username: "로딩중",
+        status: "로딩중",
+        sshPort: 0,
+        uptime: 0,
+        maxmem: 0,
+    };
+
+    const [vmDetail, setVmDetail] = useState<VmInsideType>(exampleVmDetail);
+    
+    const vmIdData: VmIdData = {
+        vmid: vmId,
+    };
+
+    const vmIdData2: VmIdData2 = {
+        id: vmId,
+    };
+
+    const startVm = async () => {
+        setIsLoading(true);
+        const response = await axios.post<any>(`${BackUrl}/api/vm/run`, vmIdData, {
+            headers: {
+                Authorization: `${accessToken}`,
+            }
+        });
+        setIsRunning(true);
+        await wait3Seconds();
+        setIsLoading(false);
+    }
+
+    const stopVm = async() => {
+        setIsLoading(true);
+        const response = await axios.delete<any>(`${BackUrl}/api/vm/run`, { 
+            data: vmIdData,
+            headers: {
+                Authorization: `${accessToken}`,
+            }
+        });
+        setIsRunning(false)
+        await wait3Seconds();
+        setIsLoading(false);
+    }
+
+    const deleteVm = async () => {
+        setIsLoading(true);
+        const response = await axios.delete<any>(`${BackUrl}/api/vm/`, { 
+            data: vmIdData2,
+            headers: {
+                Authorization: `${accessToken}`,
+            }
+        });
+        alert('인스턴스가 성공적으로 삭제되었습니다.');
+        setIsLoading(false);
+        navigate('/dashboard');
+    }
+
+    const resetVm = async () => {
+        setIsLoading(true);
+        const response = await axios.put<CreateVmType>(`${BackUrl}/api/vm/`, vmIdData2, {
+            headers: {
+                Authorization: `${accessToken}`,
+            }
+        });
+        setSshKey(response.data.private_key);
+        setPassword(response.data.password);
+        setIsLoading(false);
+        setIsPopUpOpen(true);
+    }
+
+    useEffect(() => {
+        const fetchVmDetail = async () => {
+            if (vmId) {
+                try {
+                    const detail: VmInsideType = await GetVmDetail(vmId);
+                    // console.log('VM 상세 정보:', detail);
+                    // console.log('VM 상세 정보 - 내부 IP:', detail.innerIp);
+                    // console.log('VM 상세 정보 - 외부 IP:', detail.outIp);
+                    // console.log('VM 상세 정보 - 사용자명:', detail.username);
+                    setVmDetail(detail);
+                    if (detail.status === 'running') {
+                        setIsRunning(true);
+                    } else {
+                        setIsRunning(false);
+                    }
+                }
+                catch (error) {
+                    console.error('VM 상세 정보 가져오기 실패:', error);
+                }
+            }
+        }
+        fetchVmDetail();
+    }, [vmId]);
 
     return (
         <OuterBox>
+            {isLoading && <Loading />}
+            {isPopUpOpen && (
+                <VmCreatePopUp 
+                    title="인스턴스 재생성 완료"
+                    password={password}
+                    ssh_key={sshKey}
+                />
+            )}
+            {isPortPopUpOpen && (
+                <PortAddPopUp closeFunc={() => setIsPortPopUpOpen(false)} />
+            )}
             <Header main={false} />
             <BodyDiv style={{ marginTop: '5dvh' }}>
                 <RoundContainer width="60dvw" height="AUTO">
@@ -37,8 +183,8 @@ function VmDetailPage() {
                             <Icon running={isRunning} />
                             <TitleSub>
                                 <TitleSub>
-                                    <h1>Ubuntu 20.04</h1>
-                                    <p>ID: 101</p>
+                                    <h1>{vmDetail?.name || '로딩중'}</h1>
+                                    <p>ID: {vmId}</p>
                                 </TitleSub>
                             </TitleSub>
                         </TitleLeft>
@@ -47,7 +193,7 @@ function VmDetailPage() {
                                 <ColorButton
                                     color="#E7000B" 
                                     textColor="white" 
-                                    onClick={() => setIsRunning(false)}
+                                    onClick={stopVm}
                                     style={{
                                         width: '4dvw', 
                                         height: '2dvh', 
@@ -59,7 +205,7 @@ function VmDetailPage() {
                                 <ColorButton
                                     color="#00A63E" 
                                     textColor="white" 
-                                    onClick={() => setIsRunning(true)}
+                                    onClick={startVm}
                                     style={{
                                         width: '4dvw', 
                                         height: '2dvh', 
@@ -76,21 +222,21 @@ function VmDetailPage() {
                                 <FaNetworkWired/>
                                 <Conk1Content>
                                     <p>내부 IP</p>
-                                    <p>10.0.0.1</p>
+                                    <p>{vmDetail?.innerIp || '로딩중'}</p>
                                 </Conk1Content>
                             </Conk1>
                             <Conk1 color="#155DFC">
                                 <FaNetworkWired/>
                                 <Conk1Content>
                                     <p>외부 IP</p>
-                                    <p>59.23.119.207</p>
+                                    <p>{vmDetail?.outIp || '로딩중'}</p>
                                 </Conk1Content>
                             </Conk1>
                             <Conk1 color="#9810FA">
                                 <FaRegUser/>
                                 <Conk1Content>
                                     <p>사용자명</p>
-                                    <p>admin</p>
+                                    <p>{vmDetail?.username || '로딩중'}</p>
                                 </Conk1Content>
                             </Conk1>
                         </HalfBox>
@@ -103,12 +249,12 @@ function VmDetailPage() {
                                             <p>CPU 사용량</p>
                                         </Conk2ContentLeft>
                                         <Conk2ContentRight>
-                                            <p>50%</p>
+                                            <p>{vmDetail?.cpu !== undefined ? `${Math.round(vmDetail?.cpu)}%` : '로딩중'}</p>
                                         </Conk2ContentRight>
                                     </Conk2Content>
                                     <Conk2Content>
                                         <OuterBar>
-                                            <InnerBar percentage={50} color="#F54900" />
+                                            <InnerBar percentage={Math.round(vmDetail?.cpu) || 0} color="#F54900" />
                                         </OuterBar>
                                     </Conk2Content>
                                 </Conk2Inside>
@@ -121,12 +267,12 @@ function VmDetailPage() {
                                             <p>RAM 사용량</p>
                                         </Conk2ContentLeft>
                                         <Conk2ContentRight>
-                                            <p>10%</p>
+                                            <p>{vmDetail?.mem !== undefined ? `${Math.round(vmDetail?.mem / vmDetail?.maxmem * 100)}%` : '로딩중'}</p>
                                         </Conk2ContentRight>
                                     </Conk2Content>
                                     <Conk2Content>
                                         <OuterBar>
-                                            <InnerBar percentage={10} color="#000000" />
+                                            <InnerBar percentage={Math.round(vmDetail?.mem / vmDetail?.maxmem * 100) || 0} color="#000000" />
                                         </OuterBar>
                                     </Conk2Content>
                                 </Conk2Inside>
@@ -142,6 +288,7 @@ function VmDetailPage() {
                                         padding: '2dvh 1dvw',
                                         gap: '0.4dvw',
                                     }}
+                                    onClick={resetVm}
                                 >
                                     <VscDebugRestart size={"1.0dvw"} />
                                     인스턴스 초기화
@@ -156,6 +303,7 @@ function VmDetailPage() {
                                         padding: '2dvh 1dvw',
                                         gap: '0.4dvw',
                                     }}
+                                    onClick={deleteVm}
                                 >
                                     <MdOutlineDeleteSweep size={"1.3dvw"} />
                                     인스턴스 삭제
@@ -178,6 +326,7 @@ function VmDetailPage() {
                                     padding: '2dvh 1dvw',
                                     gap: '0.4dvw',
                                 }}
+                                onClick={() => setIsPortPopUpOpen(true)}
                             >
                                 <IoMdAdd />
                                 포트 추가
