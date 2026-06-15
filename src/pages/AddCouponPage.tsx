@@ -39,13 +39,13 @@ function AddCouponPage() {
                         Authorization: `${accessToken}`,
                     }
                 });
+                alert(`${response.data.credit} 크레딧 충전되었습니다.`);
             }
             catch (error) {
                 console.error('쿠폰 등록 실패:', error);
                 alert('쿠폰 등록에 실패했습니다. 다시 시도해주세요.');
                 return;
             }
-            alert(`${response.data.credit} 크레딧 충전되었습니다.`);
         } else {
             alert('쿠폰 코드를 입력하세요.');
         }

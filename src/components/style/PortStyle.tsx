@@ -34,7 +34,7 @@ export const ContainerRight = styled.div`
 export const Content = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     justify-content: center;
     
     height: 100%;

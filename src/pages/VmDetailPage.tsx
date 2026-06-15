@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import { 
     OuterBox, RoundContainer, BodyDiv, TitleDiv,
@@ -34,6 +34,7 @@ import axios from 'axios';
 import VmCreatePopUp from '../components/VmCreatePopUp';
 import { useNavigate } from 'react-router-dom';
 import PortAddPopUp from '../components/PortAddPopUp';
+import type { PortType } from '../types/PortType';
 
 interface VmIdData {
     vmid: string;
@@ -41,6 +42,10 @@ interface VmIdData {
 
 interface VmIdData2 {
     id: string;
+}
+
+interface PortResponse {
+    ports: PortType[];
 }
 
 function VmDetailPage() {
@@ -138,6 +143,25 @@ function VmDetailPage() {
         setIsPopUpOpen(true);
     }
 
+    const [portList, setPortList] = useState<PortType[]>([]);
+
+    useEffect(() => {
+        const fetchPortList = async () => {
+            try {
+                const response = await axios.get<PortResponse>(`${BackUrl}/api/port/?id=${vmId}`, {
+                    headers: {
+                        Authorization: `${accessToken}`,
+                    }
+                });
+                setPortList(response.data.ports);
+            }
+            catch (error) {
+                console.error('포트 리스트 가져오기 실패:', error);
+            }
+        }
+        fetchPortList();
+    }, [vmId, accessToken]);
+
     useEffect(() => {
         const fetchVmDetail = async () => {
             if (vmId) {
@@ -173,7 +197,7 @@ function VmDetailPage() {
                 />
             )}
             {isPortPopUpOpen && (
-                <PortAddPopUp closeFunc={() => setIsPortPopUpOpen(false)} />
+                <PortAddPopUp vmId={vmId} closeFunc={() => setIsPortPopUpOpen(false)} />
             )}
             <Header main={false} />
             <BodyDiv style={{ marginTop: '5dvh' }}>
@@ -334,10 +358,10 @@ function VmDetailPage() {
                         </TitleRight>
                     </TitleDiv>
                     <ContainerInBox style={{ marginBottom: '5dvh' }}>
-                        <Port port="80" outport="8080" des="HTTP"/>
-                        <Port port="80" outport="8080" des="HTTP"/>
-                        <Port port="80" outport="8080" des="HTTP"/>
-                        <Port port="80" outport="8080" des="HTTP"/>
+                        <Port ssh={true} vmId={vmId} port={"22"} outport={vmDetail?.sshPort.toString() || '0'} />
+                        {portList.map((port, index) => (
+                            <Port key={index} ssh={false} vmId={vmId} port={port.inPort.toString()} outport={port.outPort.toString()} />
+                        ))}
                     </ContainerInBox>
                 </RoundContainer>
             </BodyDiv>
