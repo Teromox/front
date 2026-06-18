@@ -42,7 +42,8 @@ function Port(
             window.location.reload();
         }
         catch (error: unknown) {
-            alert('포트 삭제에 실패했습니다. 다시 시도해주세요.');
+            window.location.reload();
+            alert(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
             return;
         }
     }
